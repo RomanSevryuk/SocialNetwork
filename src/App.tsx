@@ -8,12 +8,14 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./componets/News/News";
 import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Settings/Settings";
-import {addPost, RootStateType, updateNewPostText} from "./redux/state";
+import {RootStateType} from "./redux/state";
 
 type AppType = {
     state: RootStateType
     callbackAddPost: () => void
     updateNewPostText: (newText: string) => void
+    callbackAddMessage: () => void
+    callbackUpdateNewMessageText: (newText: string) => void
 }
 
 const App: React.FC<AppType> = (props) => {
@@ -23,11 +25,15 @@ const App: React.FC<AppType> = (props) => {
                 <Header/>
                 <Navbar/>
                 <div className='appWrapperContent'>
-                    <Route path='/Dialogs' render={() => <Dialogs dialogsPage={props.state.dialogsPage}/>}/>
+                    <Route path='/Dialogs' render={() => <Dialogs dialogsPage={props.state.dialogsPage}
+                                                                  callbackAddMessage={props.callbackAddMessage}
+                                                                  callbackUpdateNewMessageText={props.callbackUpdateNewMessageText}
+                                                                  newMessageText={props.state.dialogsPage.newMessageText}
+                    />}/>
                     <Route path='/Profile' render={() => <Profile profilePage={props.state.profilePage}
                                                                   newPostText={props.state.profilePage.newPostText}
                                                                   callbackAddPost={props.callbackAddPost}
-                                                                  updateNewPostText={updateNewPostText}
+                                                                  updateNewPostText={props.updateNewPostText}
                     />}/>
                     <Route path='/News' component={News}/>
                     <Route path='/Music' component={Music}/>

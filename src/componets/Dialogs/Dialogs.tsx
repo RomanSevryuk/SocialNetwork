@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css';
 import {DialogItem} from "./DialogItem/DialogsItem";
 import {Message} from "./Message/Message";
@@ -6,6 +6,9 @@ import {DialogsPageType} from "../../redux/state";
 
 type DialogsType = {
     dialogsPage: DialogsPageType
+    callbackAddMessage: () => void
+    callbackUpdateNewMessageText: (newText: string) => void
+    newMessageText: string
 }
 
 export const Dialogs = (props: DialogsType) => {
@@ -17,14 +20,19 @@ export const Dialogs = (props: DialogsType) => {
     const newMessageElement = React.createRef<HTMLTextAreaElement>()
 
     const addMessage = () => {
-        let text = newMessageElement.current?.value
-        alert(text)
+        if (newMessageElement.current) {
+            props.callbackAddMessage()
+        }
+    }
+
+    const onMessageChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.callbackUpdateNewMessageText(e.currentTarget.value)
     }
 
     return (
         <div>
             <div>
-                <textarea ref={newMessageElement}></textarea>
+                <textarea ref={newMessageElement} onChange={onMessageChangeHandler} value={props.newMessageText}></textarea>
             </div>
             <div>
                 <button onClick={addMessage}>addMessage</button>
