@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./MyPosts/Post/Post";
 import {PostsType} from "./../../redux/state"
 
 type MyPostsType = {
     posts: Array<PostsType>
-    callbackAddPost: (message: string) => void
+    callbackAddPost: () => void
+    newPostText: string
+    updateNewPostText: (newText: string) => void
 }
 
 export const MyPosts = (props: MyPostsType) => {
@@ -15,9 +17,12 @@ export const MyPosts = (props: MyPostsType) => {
 
     const addPost = () => {
         if (newPostElement.current) {
-            props.callbackAddPost(newPostElement.current.value)
-            newPostElement.current.value = ""
+            props.callbackAddPost()
         }
+    }
+
+    const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.updateNewPostText(e.currentTarget.value)
     }
 
     return (
@@ -25,7 +30,7 @@ export const MyPosts = (props: MyPostsType) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement}></textarea>
+                    <textarea ref={newPostElement} onChange={onPostChangeHandler} value={props.newPostText}/>
                 </div>
                 <div>
                     <button onClick={addPost}>addPost</button>
