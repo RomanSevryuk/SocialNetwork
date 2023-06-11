@@ -3,25 +3,17 @@ import './App.css';
 import {Header} from "./componets/Header/Header";
 import {Navbar} from "./componets/Navbar/Navbar";
 import {Profile} from "./componets/Profile/Profile";
-import {Dialogs} from "./componets/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./componets/News/News";
 import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Settings/Settings";
-import {StateType} from "./redux/store";
+import {ActionsTypes, StateType} from "./redux/store";
+import {Dialogs} from "./componets/Dialogs/Dialogs";
 
 
 type AppType = {
-    /*    state: RootStateType
-        callbackAddPost: () => void
-        updateNewPostText: (newText: string) => void
-        callbackAddMessage: () => void
-        callbackUpdateNewMessageText: (newText: string) => void*/
     state: StateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
-    addMessage: () => void
-    updateNewMessageText: (newText: string) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
 const App: React.FC<AppType> = (props) => {
@@ -32,12 +24,10 @@ const App: React.FC<AppType> = (props) => {
                 <Navbar/>
                 <div className='appWrapperContent'>
                     <Route path='/Dialogs' render={() => <Dialogs state={props.state.dialogsPage}
-                                                                  addMessage={props.addMessage}
-                                                                  updateNewMessageText={props.updateNewMessageText}
+                                                                  dispatch={props.dispatch}
                     />}/>
                     <Route path='/Profile' render={() => <Profile state={props.state.profilePage}
-                                                                  addPost={props.addPost}
-                                                                  updateNewPostText={props.updateNewPostText}
+                                                                  dispatch={props.dispatch}
                     />}/>
                     <Route path='/News' component={News}/>
                     <Route path='/Music' component={Music}/>

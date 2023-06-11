@@ -1,16 +1,11 @@
 import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./MyPosts/Post/Post";
-import {ProfilePageType} from "../../redux/store";
+import {ActionsTypes, addPostAC, ProfilePageType, updateNewPostTextAC} from "../../redux/store";
 
 type MyPostsType = {
-    /*    posts: Array<PostsType>
-        callbackAddPost: () => void
-        newPostText: string
-        updateNewPostText: (newText: string) => void*/
     state: ProfilePageType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
 export const MyPosts = (props: MyPostsType) => {
@@ -20,12 +15,12 @@ export const MyPosts = (props: MyPostsType) => {
 
     const addPost = () => {
         if (newPostElement.current) {
-            props.addPost()
+            props.dispatch(addPostAC())
         }
     }
 
     const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
+        props.dispatch(updateNewPostTextAC(e.currentTarget.value))
     }
 
     return (
