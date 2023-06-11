@@ -13,12 +13,12 @@ export const store: StoreType = {
         dialogsPage: {
             newMessageText: "",
             messages: [
-                {message: "Hi!"},
-                {message: "How are you?"},
-                {message: "Hello!"},
-                {message: "Привет!"},
-                {message: "Как дела?"},
-                {message: "Круто!"},
+                {id: "1", message: "Hi!"},
+                {id: "2", message: "How are you?"},
+                {id: "3", message: "Hello!"},
+                {id: "4", message: "Привет!"},
+                {id: "5", message: "Как дела?"},
+                {id: "6", message: "Круто!"},
             ],
             dialogs: [
                 {id: "1", name: "Roman"},
@@ -45,8 +45,8 @@ export const store: StoreType = {
             this._addPost()
         } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._updateNewPostText(action.newText)
-        } else if (action.type === 'ADD-MESSAGE') {
-            this._addMessage()
+        } else if (action.type === 'SEND-MESSAGE') {
+            this._sendMessage()
         } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
             this._updateNewMessageText(action.newText)
         } else {
@@ -67,9 +67,10 @@ export const store: StoreType = {
         this._state.profilePage.newPostText = ""
         this._callSubscriber(this._state)
     },
-    _addMessage() {
+    _sendMessage() {
         const newMessage: MessagesType = {
-            message: this._state.dialogsPage.newMessageText
+            id: '7',
+            message: this._state.dialogsPage.newMessageText,
         }
         this._state.dialogsPage.messages.push(newMessage)
         this._state.dialogsPage.newMessageText = ""
@@ -84,7 +85,7 @@ export const store: StoreType = {
 //actions
 export const addPostAC = () => ({type: 'ADD-POST'} as const)
 export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const)
-export const addMessageAC = () => ({type: 'ADD-MESSAGE'} as const)
+export const sendMessageAC = () => ({type: 'SEND-MESSAGE'} as const)
 export const updateNewMessageTextAC = (newText: string) => ({type: 'UPDATE-NEW-MESSAGE-TEXT', newText: newText} as const)
 
 //types
@@ -93,6 +94,7 @@ type DialogsType = {
     name: string
 }
 type MessagesType = {
+    id: string
     message: string
 }
 export type PostsType = {
@@ -122,7 +124,7 @@ export type StoreType = {
     _updateNewMessageText: (newText: string) => void
     _updateNewPostText: (newText: string) => void
     _addPost: () => void
-    _addMessage: () => void
+    _sendMessage: () => void
     subscribe: (observer: (state: StateType) => void) => void
     getState: () => StateType
     dispatch: (action: ActionsTypes) => void
@@ -130,5 +132,5 @@ export type StoreType = {
 export type ActionsTypes =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostTextAC>
-    | ReturnType<typeof addMessageAC>
+    | ReturnType<typeof sendMessageAC>
     | ReturnType<typeof updateNewMessageTextAC>

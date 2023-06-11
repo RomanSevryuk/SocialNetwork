@@ -28,10 +28,13 @@ export const MyPosts = (props: MyPostsType) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement} onChange={onPostChangeHandler} value={props.state.newPostText}/>
+                    <textarea placeholder={'Enter your message for post'}
+                              ref={newPostElement}
+                              onChange={onPostChangeHandler}
+                              value={props.state.newPostText}/>
                 </div>
                 <div>
-                    <button onClick={addPost}>addPost</button>
+                    <button onClick={addPost}>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
