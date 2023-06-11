@@ -8,14 +8,20 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./componets/News/News";
 import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Settings/Settings";
-import {RootStateType} from "./redux/state";
+import {StateType} from "./redux/store";
+
 
 type AppType = {
-    state: RootStateType
-    callbackAddPost: () => void
+    /*    state: RootStateType
+        callbackAddPost: () => void
+        updateNewPostText: (newText: string) => void
+        callbackAddMessage: () => void
+        callbackUpdateNewMessageText: (newText: string) => void*/
+    state: StateType
+    addPost: () => void
     updateNewPostText: (newText: string) => void
-    callbackAddMessage: () => void
-    callbackUpdateNewMessageText: (newText: string) => void
+    addMessage: () => void
+    updateNewMessageText: (newText: string) => void
 }
 
 const App: React.FC<AppType> = (props) => {
@@ -25,14 +31,12 @@ const App: React.FC<AppType> = (props) => {
                 <Header/>
                 <Navbar/>
                 <div className='appWrapperContent'>
-                    <Route path='/Dialogs' render={() => <Dialogs dialogsPage={props.state.dialogsPage}
-                                                                  callbackAddMessage={props.callbackAddMessage}
-                                                                  callbackUpdateNewMessageText={props.callbackUpdateNewMessageText}
-                                                                  newMessageText={props.state.dialogsPage.newMessageText}
+                    <Route path='/Dialogs' render={() => <Dialogs state={props.state.dialogsPage}
+                                                                  addMessage={props.addMessage}
+                                                                  updateNewMessageText={props.updateNewMessageText}
                     />}/>
-                    <Route path='/Profile' render={() => <Profile profilePage={props.state.profilePage}
-                                                                  newPostText={props.state.profilePage.newPostText}
-                                                                  callbackAddPost={props.callbackAddPost}
+                    <Route path='/Profile' render={() => <Profile state={props.state.profilePage}
+                                                                  addPost={props.addPost}
                                                                   updateNewPostText={props.updateNewPostText}
                     />}/>
                     <Route path='/News' component={News}/>
@@ -44,5 +48,5 @@ const App: React.FC<AppType> = (props) => {
     );
 
 }
-
 export default App;
+

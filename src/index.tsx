@@ -1,22 +1,30 @@
 import React from 'react';
 import './index.css';
-import {state, subscribe} from "./redux/state";
 import ReactDOM from "react-dom";
 import App from "./App";
-import {addMessage, addPost, RootStateType, updateNewMessageText, updateNewPostText} from "./redux/state";
+import {StateType, store} from "./redux/store";
 
-const rerenderEntireTree = (state: RootStateType) => {
+
+/*ReactDOM.render(<TestFile />,  document.getElementById('root'));*/
+
+
+const rerenderEntireTree = (state: StateType) => {
     ReactDOM.render(
         <App state={state}
-             callbackAddPost={addPost}
-             updateNewPostText={updateNewPostText}
-             callbackAddMessage={addMessage}
-             callbackUpdateNewMessageText={updateNewMessageText}
+             addPost={store.addPost.bind(store)}
+             updateNewPostText={store.updateNewPostText.bind(store)}
+             addMessage={store.addMessage.bind(store)}
+             updateNewMessageText={store.updateNewMessageText.bind(store)}
+            /*           addPost={addPost}
+                         updateNewPostText={updateNewPostText}
+                         addMessage={addMessage}
+                         updateNewMessageText={updateNewMessageText}*/
         />, document.getElementById('root')
     );
 }
-rerenderEntireTree(state)
+rerenderEntireTree(store.getState())
 
-subscribe(rerenderEntireTree)
+store.subscribe(rerenderEntireTree)
 
-// new branch "dev"
+
+// new branch "development"
