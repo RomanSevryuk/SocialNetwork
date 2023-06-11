@@ -4,10 +4,6 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import {StateType, store} from "./redux/store";
 
-
-/*ReactDOM.render(<TestFile />,  document.getElementById('root'));*/
-
-
 const rerenderEntireTree = (state: StateType) => {
     ReactDOM.render(
         <App state={state} dispatch={store.dispatch.bind(store)}
@@ -17,6 +13,5 @@ const rerenderEntireTree = (state: StateType) => {
 rerenderEntireTree(store.getState())
 
 store.subscribe(rerenderEntireTree)
-
 
 // new branch "development"

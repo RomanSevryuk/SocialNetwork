@@ -1,4 +1,7 @@
 //store
+import {addPostAC, profilePageReducer, updateNewPostTextAC} from "./profile-reducer";
+import {dialogsPageReducer, sendMessageAC, updateNewMessageTextAC} from "./dialogs-reducer";
+
 export const store: StoreType = {
     //state
     _state: {
@@ -41,59 +44,18 @@ export const store: StoreType = {
         return this._state
     },
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            this._addPost()
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._updateNewPostText(action.newText)
-        } else if (action.type === 'SEND-MESSAGE') {
-            this._sendMessage()
-        } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
-            this._updateNewMessageText(action.newText)
-        } else {
-            this._callSubscriber(this._state)
-        }
-    },
-    _updateNewPostText(newText: string) {
-        this._state.profilePage.newPostText = newText
-        this._callSubscriber(this._state)
-    },
-    _addPost() {
-        const newPost: PostsType = {
-            id: "5",
-            message: this._state.profilePage.newPostText,
-            likeCounts: 0
-        }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ""
-        this._callSubscriber(this._state)
-    },
-    _sendMessage() {
-        const newMessage: MessagesType = {
-            id: '7',
-            message: this._state.dialogsPage.newMessageText,
-        }
-        this._state.dialogsPage.messages.push(newMessage)
-        this._state.dialogsPage.newMessageText = ""
-        this._callSubscriber(this._state)
-    },
-    _updateNewMessageText(newText: string) {
-        this._state.dialogsPage.newMessageText = newText
+        this._state.profilePage = profilePageReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsPageReducer(this._state.dialogsPage, action)
         this._callSubscriber(this._state)
     },
 }
-
-//actions
-export const addPostAC = () => ({type: 'ADD-POST'} as const)
-export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const)
-export const sendMessageAC = () => ({type: 'SEND-MESSAGE'} as const)
-export const updateNewMessageTextAC = (newText: string) => ({type: 'UPDATE-NEW-MESSAGE-TEXT', newText: newText} as const)
 
 //types
 type DialogsType = {
     id: string
     name: string
 }
-type MessagesType = {
+export type MessagesType = {
     id: string
     message: string
 }
@@ -121,10 +83,6 @@ export type StoreType = {
         dialogsPage: DialogsPageType
     }
     _callSubscriber: (state: StateType) => void
-    _updateNewMessageText: (newText: string) => void
-    _updateNewPostText: (newText: string) => void
-    _addPost: () => void
-    _sendMessage: () => void
     subscribe: (observer: (state: StateType) => void) => void
     getState: () => StateType
     dispatch: (action: ActionsTypes) => void
