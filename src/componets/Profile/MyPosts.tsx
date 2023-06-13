@@ -1,12 +1,12 @@
 import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./MyPosts/Post/Post";
-import {ActionsTypes, ProfilePageType} from "../../redux/store";
-import {addPostAC, updateNewPostTextAC} from "../../redux/profile-reducer";
+import {ProfilePageType} from "../../redux/store";
 
 type MyPostsType = {
     state: ProfilePageType
-    dispatch: (action: ActionsTypes) => void
+    addPost: () => void
+    updateNewPostText: (e: string) => void
 }
 
 export const MyPosts = (props: MyPostsType) => {
@@ -14,14 +14,15 @@ export const MyPosts = (props: MyPostsType) => {
 
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    const addPost = () => {
+    const onAddPostHandler = () => {
         if (newPostElement.current) {
-            props.dispatch(addPostAC())
+            props.addPost()
         }
     }
 
     const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(updateNewPostTextAC(e.currentTarget.value))
+        props.updateNewPostText(e.currentTarget.value)
+        props.updateNewPostText(e.currentTarget.value)
     }
 
     return (
@@ -35,7 +36,7 @@ export const MyPosts = (props: MyPostsType) => {
                               value={props.state.newPostText}/>
                 </div>
                 <div>
-                    <button onClick={addPost}>Add post</button>
+                    <button onClick={onAddPostHandler}>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
