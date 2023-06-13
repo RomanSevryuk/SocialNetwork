@@ -2,7 +2,7 @@
 import {addPostAC, profilePageReducer, updateNewPostTextAC} from "./profile-reducer";
 import {dialogsPageReducer, sendMessageAC, updateNewMessageTextAC} from "./dialogs-reducer";
 
-export const store: StoreType = {
+const store: StoreType = {
     //state
     _state: {
         profilePage: {
@@ -44,8 +44,8 @@ export const store: StoreType = {
         return this._state
     },
     dispatch(action) {
-        this._state.profilePage = profilePageReducer(this._state.profilePage, action)
-        this._state.dialogsPage = dialogsPageReducer(this._state.dialogsPage, action)
+        //this._state.profilePage = profilePageReducer(this._state.profilePage, action)
+        //this._state.dialogsPage = dialogsPageReducer(this._state.dialogsPage, action)
         this._callSubscriber(this._state)
     },
 }
@@ -55,29 +55,29 @@ type DialogsType = {
     id: string
     name: string
 }
-export type MessagesType = {
+type MessagesType = {
     id: string
     message: string
 }
-export type PostsType = {
+type PostsType = {
     id: string
     message: string
     likeCounts: number
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     newPostText: string
     posts: Array<PostsType>
 }
-export type DialogsPageType = {
+type DialogsPageType = {
     newMessageText: string
     messages: Array<MessagesType>
     dialogs: Array<DialogsType>
 }
-export type StateType = {
+type StateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
-export type StoreType = {
+type StoreType = {
     _state: {
         profilePage: ProfilePageType
         dialogsPage: DialogsPageType
@@ -87,7 +87,7 @@ export type StoreType = {
     getState: () => StateType
     dispatch: (action: ActionsTypes) => void
 }
-export type ActionsTypes =
+type ActionsTypes =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostTextAC>
     | ReturnType<typeof sendMessageAC>

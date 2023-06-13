@@ -1,16 +1,16 @@
 import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./MyPosts/Post/Post";
-import {ProfilePageType} from "../../redux/store";
+import {ProfilePageType} from "../../redux/profile-reducer";
 
 type MyPostsType = {
-    state: ProfilePageType
+    profilePage: ProfilePageType
     addPost: () => void
     updateNewPostText: (e: string) => void
 }
 
 export const MyPosts = (props: MyPostsType) => {
-    const postsElements = props.state.posts.map(p => <Post message={p.message} likeCounts={p.likeCounts}/>)
+    const postsElements = props.profilePage.posts.map(p => <Post message={p.message} likeCounts={p.likeCounts}/>)
 
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
@@ -33,7 +33,7 @@ export const MyPosts = (props: MyPostsType) => {
                     <textarea placeholder={'Enter your message for post'}
                               ref={newPostElement}
                               onChange={onPostChangeHandler}
-                              value={props.state.newPostText}/>
+                              value={props.profilePage.newPostText}/>
                 </div>
                 <div>
                     <button onClick={onAddPostHandler}>Add post</button>

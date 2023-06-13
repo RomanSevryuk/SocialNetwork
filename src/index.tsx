@@ -2,11 +2,10 @@ import React from 'react';
 import './index.css';
 import ReactDOM from "react-dom";
 import App from "./App";
-import {StateType} from "./redux/store";
-import {store} from "./redux/redux-store";
+import {AppRootStateType, store} from "./redux/redux-store";
 import {Provider} from "react-redux";
 
-const rerenderEntireTree = (state: StateType) => {
+const rerenderEntireTree = (state: AppRootStateType) => {
     ReactDOM.render(<Provider store={store}>
             <App />
     </Provider>
