@@ -3,7 +3,7 @@ const initialState: ProfilePageType = {
     posts: [
         {id: "1", message: 'Hi, how are you?', likeCounts: 15},
         {id: "2", message: 'It\'s my first post', likeCounts: 20},
-        {id: "2", message: "It's my first post", likeCounts: 20},
+        {id: "3", message: "It's my first post", likeCounts: 20},
     ] as Array<PostsType>,
 }
 
@@ -29,7 +29,7 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
 
 //actions
 export const addPostAC = () => ({type: 'ADD-POST'} as const)
-export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText: newText} as const)
+export const updateNewPostTextAC = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText} as const)
 
 //types
 type InitialStateType = typeof initialState

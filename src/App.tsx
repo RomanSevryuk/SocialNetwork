@@ -7,7 +7,8 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {News} from "./componets/News/News";
 import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Settings/Settings";
-import {DialogsContainer} from "./componets/Dialogs/Message/DialogsContainer";
+import {DialogsContainer} from "./componets/Dialogs/DialogsContainer";
+import {UsersContainer} from "./componets/Users/UsersContainer";
 
 const App: React.FC = (props) => {
     return (
@@ -21,7 +22,9 @@ const App: React.FC = (props) => {
                     <Route path='/News' component={News}/>
                     <Route path='/Music' component={Music}/>
                     <Route path='/Settings' component={Settings}/>
-                    <Route path={'*'} component={Profile}/>
+                    <Route path={'/users'} render={() => <UsersContainer/>}/>
+
+
                 </div>
             </div>
         </BrowserRouter>

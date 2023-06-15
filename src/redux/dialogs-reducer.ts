@@ -41,7 +41,7 @@ export const dialogsPageReducer = (state: InitialStateType = initialState, actio
 export const sendMessageAC = () =>
     ({type: 'SEND-MESSAGE'} as const)
 export const updateNewMessageTextAC = (newText: string) =>
-    ({type: 'UPDATE-NEW-MESSAGE-TEXT', newText: newText} as const)
+    ({type: 'UPDATE-NEW-MESSAGE-TEXT', newText} as const)
 
 //types
 type InitialStateType = typeof initialState
