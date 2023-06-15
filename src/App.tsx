@@ -9,14 +9,7 @@ import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Settings/Settings";
 import {DialogsContainer} from "./componets/Dialogs/Message/DialogsContainer";
 
-
-type AppType = {
-    /*   state: StateType*/
-}
-
-const App: React.FC<AppType> = (props) => {
-    //const state = useSelector<AppRootStateType, StateType>((state)=>  state)
-    //const dispatch = useDispatch()
+const App: React.FC = (props) => {
     return (
         <BrowserRouter>
             <div className='appWrapper'>
@@ -28,6 +21,7 @@ const App: React.FC<AppType> = (props) => {
                     <Route path='/News' component={News}/>
                     <Route path='/Music' component={Music}/>
                     <Route path='/Settings' component={Settings}/>
+                    <Route path={'*'} component={Profile}/>
                 </div>
             </div>
         </BrowserRouter>

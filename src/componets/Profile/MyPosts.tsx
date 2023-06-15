@@ -10,7 +10,7 @@ type MyPostsType = {
 }
 
 export const MyPosts = (props: MyPostsType) => {
-    const postsElements = props.profilePage.posts.map(p => <Post message={p.message} likeCounts={p.likeCounts}/>)
+    const postsElements = props.profilePage.posts.map(p => <Post key={p.id} message={p.message} likeCounts={p.likeCounts}/>)
 
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
@@ -21,7 +21,6 @@ export const MyPosts = (props: MyPostsType) => {
     }
 
     const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
         props.updateNewPostText(e.currentTarget.value)
     }
 
@@ -36,7 +35,7 @@ export const MyPosts = (props: MyPostsType) => {
                               value={props.profilePage.newPostText}/>
                 </div>
                 <div>
-                    <button onClick={onAddPostHandler}>Add post</button>
+                    <button onClick={onAddPostHandler}>Add</button>
                 </div>
             </div>
             <div className={s.posts}>

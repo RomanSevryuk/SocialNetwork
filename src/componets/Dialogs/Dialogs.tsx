@@ -12,9 +12,8 @@ export type DialogsType = {
 
 export const Dialogs = (props: DialogsType) => {
 
-    const dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-
-    const messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message}/>)
+    const dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
+    const messagesElements = props.dialogsPage.messages.map(m => <Message key={m.id} message={m.message}/>)
 
     const newMessageElement = React.createRef<HTMLTextAreaElement>()
 
@@ -37,7 +36,7 @@ export const Dialogs = (props: DialogsType) => {
                           value={props.dialogsPage.newMessageText}></textarea>
             </div>
             <div>
-                <button onClick={sendMessage}>send message</button>
+                <button onClick={sendMessage}>Send</button>
             </div>
 
             <div className={s.dialogs}>
