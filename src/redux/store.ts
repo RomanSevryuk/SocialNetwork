@@ -1,5 +1,5 @@
 //store
-import {addPostAC, profilePageReducer, updateNewPostTextAC} from "./profile-reducer";
+import {addPost, profilePageReducer, updateNewPostText} from "./profile-reducer";
 import {dialogsPageReducer, sendMessageAC, updateNewMessageTextAC} from "./dialogs-reducer";
 
 const store: StoreType = {
@@ -88,7 +88,7 @@ type StoreType = {
     dispatch: (action: ActionsTypes) => void
 }
 type ActionsTypes =
-    | ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof addPost>
+    | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof sendMessageAC>
     | ReturnType<typeof updateNewMessageTextAC>

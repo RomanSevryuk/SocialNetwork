@@ -21,14 +21,7 @@ export type MapStateToPropsType = {
     currentPage: number
     isFetching: boolean
 }
-/*export type MapDispatchToPropsType = {
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    setUsers: (users: Array<UsersType>) => void
-    setCurrentPage: (pageNumber: number) => void
-    setTotalUsersCount: (totalCount: number) => void
-    toggleIsFetching: (isFetching: boolean) => void
-}*/
+
 type UsersClassPropsType = {
     users: Array<UsersType>
     pageSize: number
