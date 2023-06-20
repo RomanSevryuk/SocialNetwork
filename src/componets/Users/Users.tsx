@@ -1,65 +1,54 @@
 import React from 'react';
+import s from "./user.module.css";
+import userPhoto from "../../images/avatar.jpg";
 import {UsersType} from "../../redux/users-reducer";
-import s from './user.module.css'
-import axios from 'axios'
-import userPhoto from '../../images/avatar.jpg'
 
 type UsersPropsType = {
     users: Array<UsersType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setUsers: (users: Array<UsersType>) => void
-}
-
-type ResponseType = {
-    items: Array<UsersType>
+    onPageChanged: (pageNumber: number) => void
 }
 
 export const Users = (props: UsersPropsType) => {
-    if (props.users.length === 0) {
-        /*        props.setUsers([
-                    {
-                        id: '1',
-                        photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxQzf4mxspBvm8Gw5sEs1nvnl-ellTNmOgzFEIb18ApI1Duc7ptLDOrKmVb9567wSvY0&usqp=CAU',
-                        followed: false,
-                        fullName: 'Dmitry',
-                        status: 'I am fine',
-                        location: {city: 'Minsk', country: 'Belarus'}
-                    },
-                    {
-                        id: '2',
-                        photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxQzf4mxspBvm8Gw5sEs1nvnl-ellTNmOgzFEIb18ApI1Duc7ptLDOrKmVb9567wSvY0&usqp=CAU',
-                        followed: false,
-                        fullName: 'Roman',
-                        status: 'Ok',
-                        location: {city: 'Mozyr', country: 'Belarus'}
-                    },
-                    {
-                        id: '3',
-                        photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxQzf4mxspBvm8Gw5sEs1nvnl-ellTNmOgzFEIb18ApI1Duc7ptLDOrKmVb9567wSvY0&usqp=CAU',
-                        followed: true,
-                        fullName: 'Sergey',
-                        status: 'Good',
-                        location: {city: 'Kiev', country: 'Ukraine'}
-                    },
-                    {
-                        id: '4',
-                        photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxQzf4mxspBvm8Gw5sEs1nvnl-ellTNmOgzFEIb18ApI1Duc7ptLDOrKmVb9567wSvY0&usqp=CAU',
-                        followed: true,
-                        fullName: 'Olya',
-                        status: 'I am bad',
-                        location: {city: 'Minsk', country: 'Belarus'}
-                    },
-                ])*/
-
-        axios.get<ResponseType>('https://social-network.samuraijs.com/api/1.0/users')
-            .then((response) => {
-                props.setUsers(response.data.items)
-            })
+    //pagination
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    let pages: Array<number> = []
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
     }
+    let currentPageStart = ((props.currentPage - 5) < 0) ? 0 : props.currentPage - 5;
+    let currentPageEnd = props.currentPage + 5;
+    let slicedPages = pages.slice(currentPageStart, currentPageEnd);
 
     return <div>
-        {props.users.map(el => <div key={el.id}>
+        <div>
+            <p></p>
+            {((props.currentPage + 5) > 10) &&
+                <span style={{cursor: 'pointer', padding: '5px', marginLeft: '7px'}}
+                      className={props.currentPage === Number(pages[0])
+                          ? s.selectedPage : s.allPage}
+                      onClick={() => props.onPageChanged(Number(pages[0]))}>{pages[0]}</span>}
+            {(props.currentPage + 5) > 10 &&
+                <span style={{cursor: 'default'}}> . . .</span>}
+            {slicedPages.map((el) => {
+                return <span style={{cursor: 'pointer', marginLeft: '7px', padding: '5px'}}
+                             className={props.currentPage === el ? s.selectedPage : s.allPage}
+                             onClick={() => props.onPageChanged(el)}>{el}
+                    </span>
+            })}
+            <span style={{cursor: 'default'}}> . . . </span>
+            <span style={{cursor: 'pointer', padding: '5px'}}
+                  className={props.currentPage === Number(pages.slice(-1))
+                      ? s.selectedPage : s.allPage}
+                  onClick={() => props.onPageChanged(Number(pages.slice(-1)))}>{pages.slice(-1)}
+                    </span>
+        </div>
+        <p></p>
+        {props.users.map(el => <div key={el.id} style={{marginLeft: '7px', paddingBottom: '30px'}}>
             <span>
                 <div>
                     <img alt={"AVATAR"} className={s.userPhoto}
