@@ -36,11 +36,6 @@ type UsersClassPropsType = {
     toggleIsFetching: (isFetching: boolean) => void
 }
 
-/*type ResponseType = {
-    items: Array<UsersType>
-    totalCount: number
-}*/
-
 export class UsersContainerClass extends React.Component<UsersClassPropsType> {
     componentDidMount() {
         this.props.toggleIsFetching(true)
