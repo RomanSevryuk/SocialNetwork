@@ -1,3 +1,7 @@
+import {Dispatch} from "redux";
+import {toggleIsFetching} from "./users-reducer";
+import {profileAPI} from "../api/profile-api";
+
 const initialState: ProfilePageType = {
     newPostText: "" as string,
     posts: [
@@ -31,6 +35,16 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
 export const addPost = () => ({type: 'ADD-POST'} as const)
 export const updateNewPostText = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText} as const)
 export const setUserProfile = (profileData: ProfileType) => ({type: 'SET-USER-PROFILE', profileData} as const)
+
+//thunks
+export const getProfileTC = (userID: string) => (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true))
+    profileAPI.getProfile(userID)
+        .then((data) => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setUserProfile(data))
+        })
+}
 
 //types
 type InitialStateType = typeof initialState
