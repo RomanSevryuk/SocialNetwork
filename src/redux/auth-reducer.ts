@@ -1,4 +1,5 @@
-import {ResponseDataType} from "../componets/Header/HeaderContainerClass";
+import {Dispatch} from "redux";
+import {authAPI, ResponseDataType} from "../api/auth-api";
 
 const initialState: ResponseDataType & AuthType = {
     id: null,
@@ -22,6 +23,17 @@ export const setAuthUserData = (userData: ResponseDataType, isAuth: boolean) => 
     userData,
     isAuth
 } as const)
+
+//thunks
+export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
+    authAPI.me()
+        .then((response) => {
+            if (response.data.resultCode === 0) {
+                const {id, login, email} = response.data.data
+                dispatch(setAuthUserData({id, login, email}, true))
+            }
+        })
+}
 
 //types
 type InitialStateType = typeof initialState
