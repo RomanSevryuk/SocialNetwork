@@ -1,4 +1,3 @@
-import axios from "axios";
 import {UsersType} from "../redux/users-reducer";
 import {instance} from "./instance-axiosAPI";
 

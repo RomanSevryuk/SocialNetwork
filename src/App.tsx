@@ -9,6 +9,7 @@ import {Settings} from "./componets/Settings/Settings";
 import {DialogsContainer} from "./componets/Dialogs/DialogsContainer";
 import {UsersContainer} from "./componets/Users/UsersContainer";
 import {HeaderContainer} from "./componets/Header/HeaderContainerClass";
+import {LoginPage} from "./Login/Login";
 
 const App: React.FC = (props) => {
     return (
@@ -23,6 +24,7 @@ const App: React.FC = (props) => {
                     <Route path='/Music' component={Music}/>
                     <Route path='/Settings' component={Settings}/>
                     <Route path={'/Users'} render={() => <UsersContainer/>}/>
+                    <Route path={'/Login'} render={() => <LoginPage/>}/>
                     <Route exact path="*"> <Redirect to='/Profile'/>
                     </Route>
 
