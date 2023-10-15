@@ -76,7 +76,6 @@ export const Users = (props: UsersPropsType) => {
             </span>
             <span>
                 <div>Minsk, Belarus</div>
-                {/*<div>Minsk, Belarus</div>*/}
             </span>
             </span>
         </div>)}

@@ -10,6 +10,7 @@ const initialState: ProfilePageType = {
         {id: "3", message: "It's my first post", likeCounts: 20},
     ] as Array<PostsType>,
     profile: null,
+    status: "",
 }
 
 export const profilePageReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
@@ -26,6 +27,8 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
             return {...state, newPostText: action.newText}
         case "SET-USER-PROFILE":
             return {...state, profile: action.profileData}
+        case "SET-STATUS":
+            return {...state, status: action.status}
         default:
             return state
     }
@@ -35,6 +38,7 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
 export const addPost = () => ({type: 'ADD-POST'} as const)
 export const updateNewPostText = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText} as const)
 export const setUserProfile = (profileData: ProfileType) => ({type: 'SET-USER-PROFILE', profileData} as const)
+export const setStatus = (status: string) => ({type: 'SET-STATUS', status} as const)
 
 //thunks
 export const getProfileTC = (userID: string) => (dispatch: Dispatch) => {
@@ -43,6 +47,24 @@ export const getProfileTC = (userID: string) => (dispatch: Dispatch) => {
         .then((data) => {
             dispatch(toggleIsFetching(false))
             dispatch(setUserProfile(data))
+        })
+}
+export const getUserStatusTC = (userID: string) => (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true))
+    profileAPI.getStatus(userID)
+        .then((data) => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setStatus(data.data))
+        })
+}
+
+export const updateUserStatusTC = (status: string) => (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true))
+    profileAPI.updateStatus(status)
+        .then((data) => {
+            dispatch(toggleIsFetching(false))
+            if (data.data.resultCode === 0)
+                dispatch(setStatus(status))
         })
 }
 
@@ -75,6 +97,7 @@ export type ProfilePageType = {
     newPostText: string
     posts: Array<PostsType>
     profile: ProfileType | null
+    status: string
 }
 type PostsType = {
     id: string
@@ -85,4 +108,4 @@ type ActionsTypes =
     | ReturnType<typeof addPost>
     | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
-
+    | ReturnType<typeof setStatus>
