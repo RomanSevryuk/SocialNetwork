@@ -1,5 +1,4 @@
 let initialState = {
-    newMessageText: "",
     messages: [
         {id: "1", message: "Hi!"},
         {id: "2", message: "How are you?"},
@@ -23,30 +22,21 @@ export const dialogsPageReducer = (state: InitialStateType = initialState, actio
         case 'SEND-MESSAGE':
             const newMessage: MessagesType = {
                 id: '7',
-                message: state.newMessageText,
+                message: action.newMessageText,
             }
-            state.newMessageText = ''
-            /*            state.messages.push(newMessage)
-                        state.newMessageText = ""*/
             return {...state, messages: [...state.messages, newMessage]}
-        case "UPDATE-NEW-MESSAGE-TEXT":
-            /*state.newMessageText = action.newText*/
-            return {...state, newMessageText: action.newText}
         default:
             return state
     }
 }
 
 //actions
-export const sendMessageAC = () =>
-    ({type: 'SEND-MESSAGE'} as const)
-export const updateNewMessageTextAC = (newText: string) =>
-    ({type: 'UPDATE-NEW-MESSAGE-TEXT', newText} as const)
+export const sendMessageAC = (newMessageText: string) =>
+    ({type: 'SEND-MESSAGE', newMessageText} as const)
 
 //types
 type InitialStateType = typeof initialState
 export type DialogsPageType = {
-    newMessageText: string
     messages: Array<MessagesType>
     dialogs: Array<DialogsType>
 }
@@ -60,4 +50,3 @@ type MessagesType = {
 }
 type ActionsTypes =
     | ReturnType<typeof sendMessageAC>
-    | ReturnType<typeof updateNewMessageTextAC>

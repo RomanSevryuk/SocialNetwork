@@ -3,7 +3,6 @@ import {toggleIsFetching} from "./users-reducer";
 import {profileAPI} from "../api/profile-api";
 
 const initialState: ProfilePageType = {
-    newPostText: "" as string,
     posts: [
         {id: "1", message: 'Hi, how are you?', likeCounts: 15},
         {id: "2", message: 'It\'s my first post', likeCounts: 20},
@@ -18,13 +17,10 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
         case 'ADD-POST':
             const newPost: PostsType = {
                 id: "5",
-                message: state.newPostText,
+                message: action.newPostText,
                 likeCounts: 0
             }
-            state.newPostText = ''
             return {...state, posts: [...state.posts, newPost]}
-        case "UPDATE-NEW-POST-TEXT":
-            return {...state, newPostText: action.newText}
         case "SET-USER-PROFILE":
             return {...state, profile: action.profileData}
         case "SET-STATUS":
@@ -35,8 +31,7 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
 }
 
 //actions
-export const addPost = () => ({type: 'ADD-POST'} as const)
-export const updateNewPostText = (newText: string) => ({type: 'UPDATE-NEW-POST-TEXT', newText} as const)
+export const addPost = (newPostText: string) => ({type: 'ADD-POST', newPostText} as const)
 export const setUserProfile = (profileData: ProfileType) => ({type: 'SET-USER-PROFILE', profileData} as const)
 export const setStatus = (status: string) => ({type: 'SET-STATUS', status} as const)
 
@@ -94,7 +89,6 @@ type ContactsProfileType = {
     mainLink: string
 }
 export type ProfilePageType = {
-    newPostText: string
     posts: Array<PostsType>
     profile: ProfileType | null
     status: string
@@ -106,6 +100,5 @@ type PostsType = {
 }
 type ActionsTypes =
     | ReturnType<typeof addPost>
-    | ReturnType<typeof updateNewPostText>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
