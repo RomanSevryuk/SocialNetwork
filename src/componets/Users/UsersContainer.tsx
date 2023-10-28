@@ -3,7 +3,7 @@ import {AppRootStateType} from "../../redux/redux-store";
 import {followTC, getUsersTC, unfollowTC, UsersType} from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
-import {Preloader} from "../../assets/Preloader/Preloader";
+import {Preloader} from "../common/Preloader/Preloader";
 
 export type MapStateToPropsType = {
     users: Array<UsersType>
