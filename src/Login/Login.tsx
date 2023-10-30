@@ -2,21 +2,35 @@ import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Input} from "../componets/common/FormsControls/FormsControls";
 import {requiredField} from "../utils/validators/validators";
+import {connect} from "react-redux";
+import {login} from "../redux/auth-reducer";
+import {AppRootStateType} from "../redux/redux-store";
+import {Redirect} from "react-router-dom";
 
 type FormDataType = {
-    login: string
+    email: string
     password: string
     rememberMe: boolean
+}
+
+type LoginPagePropsType = {
+    login: (email: string, password: string, rememberMe: boolean) => void
+    isAuth: boolean
+}
+
+type MapStateToPropsType = {
+    isAuth: boolean
 }
 
 const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field placeholder={'Login'} component={Input} name={'login'} validate={[requiredField]}/>
+                <Field placeholder={'Email'} component={Input} name={'email'} validate={[requiredField]}/>
             </div>
             <div>
-                <Field placeholder={'Password'} component={Input} name={'password'} validate={[requiredField]}/>
+                <Field placeholder={'Password'} component={Input} name={'password'} validate={[requiredField]}
+                       type={'password'}/>
             </div>
             <div>
                 <Field type={'checkbox'} component={Input} name={'rememberMe'}/> remember me
@@ -30,9 +44,12 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 
 export const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
 
-export const LoginPage = () => {
+const LoginPage = (props: LoginPagePropsType) => {
     const onSubmit = (formData: FormDataType) => {
-        console.log(formData)
+        props.login(formData.email, formData.password, formData.rememberMe)
+    }
+    if (props.isAuth) {
+        return <Redirect to='/Profile'/>
     }
     return (
         <div>
@@ -41,3 +58,9 @@ export const LoginPage = () => {
         </div>
     );
 };
+
+const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
+    isAuth: state.auth.isAuth
+})
+
+export const LoginPageContainer = connect(mapStateToProps, {login})(LoginPage)
