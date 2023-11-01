@@ -1,6 +1,10 @@
 .content img {
     width: 1000px;
 }
+.avatar {
+    width: 200px;
+    height: 200px;
+}
 .descriptionBlock {
     padding: 10px;
 }

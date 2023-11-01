@@ -8,15 +8,16 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 type ProfileClassPropsType = {
-    status: string
-    profile: ProfileType | null
     getProfileTC: (userID: string) => void
     getUserStatusTC: (userID: string) => void
     updateUserStatusTC: (status: string) => void
-}
+} & MapStateToPropsType
+
 type MapStateToPropsType = {
     profile: ProfileType | null
     status: string
+    authorizedUserId: null | number
+    isAuth: boolean
 }
 type PathParamsType = {
     userID: string
@@ -27,10 +28,10 @@ type PropsType = RouteComponentProps<PathParamsType> & ProfileClassPropsType
 class ProfileClassContainer extends React.Component<PropsType> {
     componentDidMount() {
         let userID: string = this.props.match.params.userID
-        !userID ? userID = '27858' : this.props.getProfileTC(userID)
-        /*                if (!userID) {
-                            userID = '2'
-                        }*/
+        if (!userID) {
+            if(this.props.authorizedUserId)
+            userID = this.props.authorizedUserId.toString()
+        }
         this.props.getProfileTC(userID)
         this.props.getUserStatusTC(userID)
     }
@@ -43,7 +44,9 @@ class ProfileClassContainer extends React.Component<PropsType> {
 
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    authorizedUserId: state.auth.id,
+    isAuth: state.auth.isAuth,
 })
 
 export default compose<React.ComponentType>(connect(mapStateToProps, {
