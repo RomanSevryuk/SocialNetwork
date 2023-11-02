@@ -7,19 +7,14 @@ import {getAuthUserDataTC, logout} from "../../redux/auth-reducer";
 type HeaderContainerType = {
     getAuthUserDataTC: () => void
     logout: () => void
-    isAuth: boolean
-    login: string | null
-}
+} & MapStateToPropsType
+
 type MapStateToPropsType = {
     isAuth: boolean
     login: string | null
 }
 
 export class HeaderContainerClass extends React.Component<HeaderContainerType> {
-
-    componentDidMount() {
-        this.props.getAuthUserDataTC()
-    }
 
     render() {
         return <Header {...this.props}/>
