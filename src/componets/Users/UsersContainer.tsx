@@ -4,6 +4,14 @@ import {followTC, getUsersTC, unfollowTC, UsersType} from "../../redux/users-red
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 export type MapStateToPropsType = {
     users: Array<UsersType>
@@ -43,13 +51,22 @@ export class UsersContainerClass extends React.Component<UsersClassPropsType> {
     }
 }
 
-const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
+/*const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
     followingInProgress: state.usersPage.followingInProgress,
+})*/
+
+const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state),
 })
 
 export const UsersContainer = connect(mapStateToProps, {
