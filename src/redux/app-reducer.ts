@@ -8,7 +8,6 @@ const initialState = {
 export const appReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case "SET-INITIALIZED":
-            debugger
             return {...state, initialized: true}
         default:
             return state

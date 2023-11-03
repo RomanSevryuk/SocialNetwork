@@ -28,7 +28,7 @@ export const setAuthUserData = (payload: ResponseDataType, isAuth: boolean) => (
 
 //thunks
 export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
-    return  authAPI.me()
+    return authAPI.me()
         .then((response) => {
             if (response.data.resultCode === 0) {
                 const {id, login, email} = response.data.data
@@ -41,7 +41,6 @@ export const login = (email: string, password: string, rememberMe: boolean) => (
     authAPI.login(email, password, rememberMe)
         .then((response) => {
             if (response.data.resultCode === 0) {
-                debugger
                 dispatch(getAuthUserDataTC())
             } else {
                 let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'

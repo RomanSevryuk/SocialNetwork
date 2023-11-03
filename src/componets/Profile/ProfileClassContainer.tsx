@@ -28,9 +28,10 @@ type PropsType = RouteComponentProps<PathParamsType> & ProfileClassPropsType
 class ProfileClassContainer extends React.Component<PropsType> {
     componentDidMount() {
         let userID: string = this.props.match.params.userID
+        debugger
         if (!userID) {
-            if(this.props.authorizedUserId)
-            userID = this.props.authorizedUserId.toString()
+            if (this.props.authorizedUserId)
+                userID = this.props.authorizedUserId.toString()
         }
         this.props.getProfileTC(userID)
         this.props.getUserStatusTC(userID)

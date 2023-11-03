@@ -15,16 +15,10 @@ export type MapStateToPropsType = {
 }
 
 type UsersClassPropsType = {
-    users: Array<UsersType>
-    pageSize: number
-    totalUsersCount: number
-    currentPage: number
-    isFetching: boolean
-    followingInProgress: Array<number>
     followTC: (userID: number) => void
     unfollowTC: (userID: number) => void
     getUsersTC: (currentPage: number, pageSize: number) => void
-}
+} & MapStateToPropsType
 
 export class UsersContainerClass extends React.Component<UsersClassPropsType> {
     componentDidMount() {
