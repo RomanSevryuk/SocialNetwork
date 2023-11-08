@@ -10,7 +10,7 @@ export const ProfileStatusWithHooks = (props: ProfileStatusWithHooksPropsType) =
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.status)
 
-    useEffect(()=>{
+    useEffect(() => {
         debugger
         setStatus(props.status)
     }, [props.status])
