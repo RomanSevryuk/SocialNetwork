@@ -15,24 +15,6 @@ type FormDataType = {
     newPostText: string
 }
 
-
-export const MyPosts = (props: MyPostsType) => {
-    const postsElements = props.profilePage.posts.map(p => <Post key={p.id} message={p.message}
-                                                                 likeCounts={p.likeCounts}/>)
-    const onAddPost = (formData: FormDataType) => {
-        props.addPost(formData.newPostText)
-    }
-    return (
-        <div className={s.postsBlock}>
-            <h3>My posts</h3>
-            <AddNewPostReduxForm onSubmit={onAddPost}/>
-            <div className={s.posts}>
-                {postsElements}
-            </div>
-        </div>
-    );
-};
-
 const maxLength10 = maxLengthCreator(10)
 
 const AddNewPostForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
@@ -50,3 +32,22 @@ const AddNewPostForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 }
 
 const AddNewPostReduxForm = reduxForm<FormDataType>({form: 'ProfileAddNewPostForm'})(AddNewPostForm)
+
+export const MyPosts = React.memo((props: MyPostsType) => {
+    console.log(props)
+    console.log('MyPOst')
+    const postsElements = props.profilePage.posts.map(p => <Post key={p.id} message={p.message}
+                                                                 likeCounts={p.likeCounts}/>)
+    const onAddPost = (formData: FormDataType) => {
+        props.addPost(formData.newPostText)
+    }
+    return (
+        <div className={s.postsBlock}>
+            <h3>My posts</h3>
+            <AddNewPostReduxForm onSubmit={onAddPost}/>
+            <div className={s.posts}>
+                {postsElements}
+            </div>
+        </div>
+    );
+});
