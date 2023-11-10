@@ -47,7 +47,6 @@ export class App extends React.Component<AppPropsType> {
                         <Route path='/Settings' component={Settings}/>
                         <Route path={'/Users'} render={() => <UsersContainer/>}/>
                         <Route path={'/Login'} render={() => <LoginPageContainer/>}/>
-                        {/*                        <Route exact path="*"> <Redirect to='/Profile'/> </Route>*/}
                     </div>
                 </div>
             </BrowserRouter>
