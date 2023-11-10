@@ -93,7 +93,7 @@ export type ProfilePageType = {
     profile: ProfileType | null
     status: string
 }
-type PostsType = {
+export type PostsType = {
     id: string
     message: string
     likeCounts: number
