@@ -33,13 +33,12 @@ const AddNewPostForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
 
 const AddNewPostReduxForm = reduxForm<FormDataType>({form: 'ProfileAddNewPostForm'})(AddNewPostForm)
 
-export const MyPosts = React.memo((props: MyPostsType) => {
-    console.log(props)
-    console.log('MyPOst')
-    const postsElements = props.profilePage.posts.map(p => <Post key={p.id} message={p.message}
-                                                                 likeCounts={p.likeCounts}/>)
+export const MyPosts = React.memo(({addPost, profilePage}: MyPostsType) => {
+    const postsElements = profilePage.posts.map(p => (
+        <Post key={p.id} message={p.message}
+              likeCounts={p.likeCounts}/>))
     const onAddPost = (formData: FormDataType) => {
-        props.addPost(formData.newPostText)
+        addPost(formData.newPostText)
     }
     return (
         <div className={s.postsBlock}>

@@ -30,7 +30,8 @@ type UsersClassPropsType = {
 
 export class UsersContainerClass extends React.Component<UsersClassPropsType> {
     componentDidMount() {
-        this.props.getUsersTC(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props
+        this.props.getUsersTC(currentPage, pageSize)
     }
 
     onPageChanged = (pageNumber: number) => this.props.getUsersTC(pageNumber, this.props.pageSize)
@@ -50,15 +51,6 @@ export class UsersContainerClass extends React.Component<UsersClassPropsType> {
         </>
     }
 }
-
-/*const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
-})*/
 
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => ({
     users: getUsers(state),

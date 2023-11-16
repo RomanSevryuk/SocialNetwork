@@ -19,7 +19,7 @@ let initialState = {
 
 export const dialogsPageReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case 'SEND-MESSAGE':
+        case 'dialogs/SEND-MESSAGE':
             const newMessage: MessagesType = {
                 id: '7',
                 message: action.newMessageText,
@@ -32,7 +32,7 @@ export const dialogsPageReducer = (state: InitialStateType = initialState, actio
 
 //actions
 export const sendMessageAC = (newMessageText: string) =>
-    ({type: 'SEND-MESSAGE', newMessageText} as const)
+    ({type: 'dialogs/SEND-MESSAGE', newMessageText} as const)
 
 //types
 type InitialStateType = typeof initialState

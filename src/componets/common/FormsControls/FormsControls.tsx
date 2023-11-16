@@ -1,7 +1,6 @@
 import React from 'react';
-import {WrappedFieldInputProps, WrappedFieldMetaProps} from "redux-form";
+import {Field, WrappedFieldInputProps, WrappedFieldMetaProps} from "redux-form";
 import s from './FormsControls.module.css'
-
 
 type WrappedFieldPropsType = {
     input?: WrappedFieldInputProps
@@ -26,3 +25,9 @@ export const Textarea: React.FC<WrappedFieldPropsType> = ({input, ...props}) => 
 export const Input: React.FC<WrappedFieldPropsType> = ({input, ...props}) => {
     return <FormControl {...props}> <input {...input} {...props}/> </FormControl>
 };
+
+export const createField = (placeholder: string, component: Function, name: string, validate: Array<Function>, type?: string) => (
+    <div>
+        <Field placeholder={placeholder} component={component} name={name} validate={validate} type={type}/>
+    </div>
+)

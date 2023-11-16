@@ -11,8 +11,8 @@ type ProfileInfoPropsType = {
     updateUserStatusTC: (status: string) => void
 }
 
-export const ProfileInfo = (props: ProfileInfoPropsType) => {
-    if (!props.profile) {
+export const ProfileInfo = ({profile, status, updateUserStatusTC}: ProfileInfoPropsType) => {
+    if (!profile) {
         return <Preloader/>
     }
 
@@ -22,8 +22,8 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                 <img src='https://i.pinimg.com/originals/30/80/1c/30801c76ad257c29de8d2f28beabab38.jpg'/>
             </div>
             <div className={s.descriptionBlock}>
-                <img className={s.avatar} src={props.profile?.photos.large || avatar}/>
-                <ProfileStatusWithHooks status={props.status} updateUserStatusTC={props.updateUserStatusTC}/>
+                <img className={s.avatar} src={profile?.photos.large || avatar}/>
+                <ProfileStatusWithHooks statusProp={status} updateUserStatusTC={updateUserStatusTC}/>
             </div>
         </div>
     );

@@ -14,16 +14,16 @@ const initialState: ProfilePageType = {
 
 export const profilePageReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case 'ADD-POST':
+        case 'profile/ADD-POST':
             const newPost: PostsType = {
                 id: "5",
                 message: action.newPostText,
                 likeCounts: 0
             }
             return {...state, posts: [...state.posts, newPost]}
-        case "SET-USER-PROFILE":
+        case "profile/SET-USER-PROFILE":
             return {...state, profile: action.profileData}
-        case "SET-STATUS":
+        case "profile/SET-STATUS":
             return {...state, status: action.status}
         default:
             return state
@@ -31,36 +31,30 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
 }
 
 //actions
-export const addPost = (newPostText: string) => ({type: 'ADD-POST', newPostText} as const)
-export const setUserProfile = (profileData: ProfileType) => ({type: 'SET-USER-PROFILE', profileData} as const)
-export const setStatus = (status: string) => ({type: 'SET-STATUS', status} as const)
+export const addPost = (newPostText: string) => ({type: 'profile/ADD-POST', newPostText} as const)
+export const setUserProfile = (profileData: ProfileType) => ({type: 'profile/SET-USER-PROFILE', profileData} as const)
+export const setStatus = (status: string) => ({type: 'profile/SET-STATUS', status} as const)
 
 //thunks
-export const getProfileTC = (userID: string) => (dispatch: Dispatch) => {
+export const getProfileTC = (userID: string) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    profileAPI.getProfile(userID)
-        .then((data) => {
-            dispatch(toggleIsFetching(false))
-            dispatch(setUserProfile(data))
-        })
+    const data = await profileAPI.getProfile(userID)
+    dispatch(toggleIsFetching(false))
+    dispatch(setUserProfile(data))
 }
-export const getUserStatusTC = (userID: string) => (dispatch: Dispatch) => {
+export const getUserStatusTC = (userID: string) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    profileAPI.getStatus(userID)
-        .then((data) => {
-            dispatch(toggleIsFetching(false))
-            dispatch(setStatus(data.data))
-        })
+    const data = await profileAPI.getStatus(userID)
+    dispatch(toggleIsFetching(false))
+    dispatch(setStatus(data.data))
 }
 
-export const updateUserStatusTC = (status: string) => (dispatch: Dispatch) => {
+export const updateUserStatusTC = (status: string) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    profileAPI.updateStatus(status)
-        .then((data) => {
-            dispatch(toggleIsFetching(false))
-            if (data.data.resultCode === 0)
-                dispatch(setStatus(status))
-        })
+    const data = await profileAPI.updateStatus(status)
+    dispatch(toggleIsFetching(false))
+    if (data.data.resultCode === 0)
+        dispatch(setStatus(status))
 }
 
 //types

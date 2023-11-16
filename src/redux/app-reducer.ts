@@ -7,7 +7,7 @@ const initialState = {
 
 export const appReducer = (state: InitialStateType = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
-        case "SET-INITIALIZED":
+        case "app/SET-INITIALIZED":
             return {...state, initialized: true}
         default:
             return state
@@ -16,7 +16,7 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 
 //actions
 export const setInitializedAppAC = () => ({
-    type: 'SET-INITIALIZED',
+    type: 'app/SET-INITIALIZED',
 } as const)
 
 //thunks

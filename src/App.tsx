@@ -9,7 +9,6 @@ import {Settings} from "./componets/Settings/Settings";
 import {UsersContainer} from "./componets/Users/UsersContainer";
 import {HeaderContainer} from "./componets/Header/HeaderContainerClass";
 import {LoginPageContainer} from "./Login/Login";
-//import ProfileClassContainer from "./componets/Profile/ProfileClassContainer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {setInitializedAppTC} from "./redux/app-reducer";
@@ -47,7 +46,6 @@ export class App extends React.Component<AppPropsType> {
                     <Navbar/>
                     <div className='appWrapperContent'>
                         <Route path='/Dialogs' render={withSuspense(DialogsContainer)}/>
-                        {/*<Route path='/Profile/:userID?' render={() => <ProfileClassContainer/>}/>*/}
                         <Route path='/Profile/:userID?' render={withSuspense(ProfileClassContainer)}/>
                         <Route path='/News' component={News}/>
                         <Route path='/Music' component={Music}/>

@@ -10,24 +10,20 @@ import {maxLengthCreator, requiredField} from "../../utils/validators/validators
 export type DialogsType = {
     dialogsPage: DialogsPageType
     sendMessage: (newMessageText: string) => void
-    updateNewMessageText: (e: string) => void
-    /*    isAuth: boolean*/
 }
 
 type FormDataType = {
     newMessageText: string
 }
 
-export const Dialogs = (props: DialogsType) => {
+export const Dialogs = ({dialogsPage, sendMessage}: DialogsType) => {
 
-    const dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
-    const messagesElements = props.dialogsPage.messages.map(m => <Message key={m.id} message={m.message}/>)
+    const dialogsElements = dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>)
+    const messagesElements = dialogsPage.messages.map(m => <Message key={m.id} message={m.message}/>)
 
     const addNewMessage = (formData: FormDataType) => {
-        props.sendMessage(formData.newMessageText)
+        sendMessage(formData.newMessageText)
     }
-    /*
-        if(!props.isAuth) return  <Redirect to={'Login'}/>*/
 
     return (
         <div>

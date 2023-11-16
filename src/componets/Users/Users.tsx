@@ -1,8 +1,7 @@
 import React from 'react';
-import s from "./user.module.css";
-import userPhoto from "../../assets/images/avatar.jpg";
 import {UsersType} from "../../redux/users-reducer";
-import {NavLink} from "react-router-dom";
+import {Paginator} from "../common/Paginator/Paginator";
+import {User} from "./User";
 
 type UsersPropsType = {
     users: Array<UsersType>
@@ -15,69 +14,23 @@ type UsersPropsType = {
     onPageChanged: (pageNumber: number) => void
 }
 
-export const Users = (props: UsersPropsType) => {
-    //pagination
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
-    let pages: Array<number> = []
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
-    }
-    let currentPageStart = ((props.currentPage - 5) < 0) ? 0 : props.currentPage - 5;
-    let currentPageEnd = props.currentPage + 5;
-    let slicedPages = pages.slice(currentPageStart, currentPageEnd);
+export const Users = ({
+                          users,
+                          pageSize,
+                          totalUsersCount,
+                          currentPage,
+                          followingInProgress,
+                          follow,
+                          unfollow,
+                          onPageChanged
+                      }: UsersPropsType) => {
 
     return <div>
-        <div>
-            <p></p>
-            {((props.currentPage + 5) > 10) &&
-                <span style={{cursor: 'pointer', padding: '5px', marginLeft: '7px'}}
-                      className={props.currentPage === Number(pages[0])
-                          ? s.selectedPage : s.allPage}
-                      onClick={() => props.onPageChanged(Number(pages[0]))}>{pages[0]}</span>}
-            {(props.currentPage + 5) > 10 &&
-                <span style={{cursor: 'default'}}> . . .</span>}
-            {slicedPages.map((el, index) => {
-                return <span key={index} style={{cursor: 'pointer', marginLeft: '7px', padding: '5px'}}
-                             className={props.currentPage === el ? s.selectedPage : s.allPage}
-                             onClick={() => props.onPageChanged(el)}>{el}
-                    </span>
-            })}
-            <span style={{cursor: 'default'}}> . . . </span>
-            <span style={{cursor: 'pointer', padding: '5px'}}
-                  className={props.currentPage === Number(pages.slice(-1))
-                      ? s.selectedPage : s.allPage}
-                  onClick={() => props.onPageChanged(Number(pages.slice(-1)))}>{pages.slice(-1)}
-                    </span>
-        </div>
-        <p></p>
-        {props.users.map(el => <div key={el.id} style={{marginLeft: '7px', paddingBottom: '30px'}}>
-            <span>
-                <div>
-                    <NavLink to={'/profile/' + el.id}>
-                    <img alt={"AVATAR"} className={s.userPhoto}
-                         src={el.photos.small !== null ? el.photos.small : userPhoto}/>
-                        </NavLink>
-                </div>
-                <div>
-                    {el.followed
-                        ? <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => {
-                            props.unfollow(el.id)
-                        }
-                        }>Unfollow</button>
-                        : <button disabled={props.followingInProgress.some(id => id === el.id)} onClick={() => {
-                            props.follow(el.id)
-                        }}>Follow</button>}
-                </div>
-            </span>
-            <span>
-                <span>
-                <div>{el.name}</div>
-                <div>{el.status}</div>
-            </span>
-            <span>
-                <div>Minsk, Belarus</div>
-            </span>
-            </span>
-        </div>)}
+        <Paginator pageSize={pageSize} totalCount={totalUsersCount} currentPage={currentPage}
+                   onPageChanged={onPageChanged}/>
+        {
+            users.map(el => <User key={el.id} user={el} followingInProgress={followingInProgress} follow={follow}
+                                  unfollow={unfollow}/>
+            )}
     </div>
 };
