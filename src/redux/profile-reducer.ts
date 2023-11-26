@@ -25,6 +25,11 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
             return {...state, profile: action.profileData}
         case "profile/SET-STATUS":
             return {...state, status: action.status}
+        case "profile/SAVE-PHOTO-SUCCESS":
+            return state.profile !== null ?
+                {
+                    ...state, profile: {...state.profile, photos: {...state.profile.photos, large: action.photos}}
+                } : state
         default:
             return state
     }
@@ -34,6 +39,7 @@ export const profilePageReducer = (state: InitialStateType = initialState, actio
 export const addPost = (newPostText: string) => ({type: 'profile/ADD-POST', newPostText} as const)
 export const setUserProfile = (profileData: ProfileType) => ({type: 'profile/SET-USER-PROFILE', profileData} as const)
 export const setStatus = (status: string) => ({type: 'profile/SET-STATUS', status} as const)
+export const savePhotoSuccess = (photos: string) => ({type: 'profile/SAVE-PHOTO-SUCCESS', photos} as const)
 
 //thunks
 export const getProfileTC = (userID: string) => async (dispatch: Dispatch) => {
@@ -57,6 +63,15 @@ export const updateUserStatusTC = (status: string) => async (dispatch: Dispatch)
         dispatch(setStatus(status))
 }
 
+export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true))
+    const response = await profileAPI.savePhoto(file)
+    dispatch(toggleIsFetching(false))
+
+    if (response.data.resultCode === 0)
+        dispatch(savePhotoSuccess(response.data.data.photos))
+}
+
 //types
 type InitialStateType = typeof initialState
 
@@ -68,8 +83,8 @@ export type ProfileType = {
     fullName: string
     userId: number
     photos: {
-        small: string
-        large: string
+        small?: string
+        large?: string
     }
 }
 type ContactsProfileType = {
@@ -96,3 +111,4 @@ type ActionsTypes =
     | ReturnType<typeof addPost>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof savePhotoSuccess>

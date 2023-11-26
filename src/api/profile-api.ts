@@ -19,4 +19,13 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instance.put<ResponseStatusType>(`profile/status`, {status})
     },
+    savePhoto(photoFile: File) {
+        const formData = new FormData()
+        formData.append('image', photoFile)
+        return instance.put<any>(`profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
 }
