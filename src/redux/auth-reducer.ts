@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {authAPI, ResponseDataType} from "../api/auth-api";
+import {authAPI, ResponseDataType, securityApi} from "../api/auth-api";
 import {AppThunkDispatch} from "./redux-store";
 import {stopSubmit} from "redux-form";
 
@@ -47,6 +47,13 @@ export const login = (email: string, password: string, rememberMe: boolean) => a
 
 export const logout = () => async (dispatch: AppThunkDispatch) => {
     const response = await authAPI.logout()
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData({id: null, login: null, email: null}, false))
+    }
+}
+
+export const getCaptchaUrl = () => async (dispatch: AppThunkDispatch) => {
+    const response = await securityApi.getCaptchaUrl()
     if (response.data.resultCode === 0) {
         dispatch(setAuthUserData({id: null, login: null, email: null}, false))
     }
