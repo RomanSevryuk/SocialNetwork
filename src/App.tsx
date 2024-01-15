@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {Navbar} from "./componets/Navbar/Navbar";
-import {BrowserRouter, Route} from "react-router-dom";
+import {HashRouter, Route} from "react-router-dom";
 import {News} from "./componets/News/News";
 import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Settings/Settings";
@@ -40,7 +40,7 @@ export class App extends React.Component<AppPropsType> {
             return <Preloader/>
         }
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <div className='appWrapper'>
                     <HeaderContainer/>
                     <Navbar/>
@@ -54,7 +54,7 @@ export class App extends React.Component<AppPropsType> {
                         <Route path={'/Login'} render={() => <LoginPageContainer/>}/>
                     </div>
                 </div>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 }
