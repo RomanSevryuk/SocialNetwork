@@ -1,47 +1,52 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./MyPosts/Post/Post";
-import {ProfilePageType} from "../../redux/store";
+import {ProfilePageType} from "../../redux/profile-reducer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {maxLengthCreator, requiredField} from "../../utils/validators/validators";
+import {Textarea} from "../common/FormsControls/FormsControls";
 
 type MyPostsType = {
-    /*    posts: Array<PostsType>
-        callbackAddPost: () => void
-        newPostText: string
-        updateNewPostText: (newText: string) => void*/
-    state: ProfilePageType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    profilePage: ProfilePageType
+    addPost: (newPostText: string) => void
 }
 
-export const MyPosts = (props: MyPostsType) => {
-    const postsElements = props.state.posts.map(p => <Post message={p.message} likeCounts={p.likeCounts}/>)
+type FormDataType = {
+    newPostText: string
+}
 
-    const newPostElement = React.createRef<HTMLTextAreaElement>()
+const maxLength10 = maxLengthCreator(10)
 
-    const addPost = () => {
-        if (newPostElement.current) {
-            props.addPost()
-        }
+const AddNewPostForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field name={'newPostText'} placeholder={'Enter your message for post'} component={Textarea}
+                       validate={[requiredField, maxLength10]}/>
+            </div>
+            <div>
+                <button>Add</button>
+            </div>
+        </form>
+    )
+}
+
+const AddNewPostReduxForm = reduxForm<FormDataType>({form: 'ProfileAddNewPostForm'})(AddNewPostForm)
+
+export const MyPosts = React.memo(({addPost, profilePage}: MyPostsType) => {
+    const postsElements = profilePage.posts.map(p => (
+        <Post key={p.id} message={p.message}
+              likeCounts={p.likeCounts}/>))
+    const onAddPost = (formData: FormDataType) => {
+        addPost(formData.newPostText)
     }
-
-    const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewPostText(e.currentTarget.value)
-    }
-
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
-            <div>
-                <div>
-                    <textarea ref={newPostElement} onChange={onPostChangeHandler} value={props.state.newPostText}/>
-                </div>
-                <div>
-                    <button onClick={addPost}>addPost</button>
-                </div>
-            </div>
+            <AddNewPostReduxForm onSubmit={onAddPost}/>
             <div className={s.posts}>
                 {postsElements}
             </div>
         </div>
     );
-};
+});

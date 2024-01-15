@@ -1,23 +1,22 @@
 import React from 'react';
-import {MyPosts} from "./MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {ProfilePageType} from "../../redux/stateOld";
+import {MyPostsContainer} from "./MyPostsContainer";
+import {ProfileType} from "../../redux/profile-reducer";
 
-type ProfileType = {
-    /*    profilePage: ProfilePageType
-        callbackAddPost: () => void
-        newPostText: string
-        updateNewPostText: (newText: string) => void*/
-    state: ProfilePageType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+type ProfilePropsType = {
+    profile: ProfileType | null
+    status: string
+    updateUserStatusTC: (status: string) => void
+    isOwner: boolean
+    savePhoto: (e: File) => void
 }
 
-export const Profile = (props: ProfileType) => {
+export const Profile = ({profile, status, updateUserStatusTC, isOwner, savePhoto}: ProfilePropsType) => {
     return (
         <div>
-            <ProfileInfo/>
-            <MyPosts state={props.state} addPost={props.addPost} updateNewPostText={props.updateNewPostText}/>
+            <ProfileInfo profile={profile} status={status} updateUserStatusTC={updateUserStatusTC} isOwner={isOwner}
+                         savePhoto={savePhoto}/>
+            <MyPostsContainer/>
         </div>
     );
 };
