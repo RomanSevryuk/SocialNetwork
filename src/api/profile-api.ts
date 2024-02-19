@@ -1,5 +1,6 @@
 import {instance} from "./instance-axiosAPI";
 import {ProfileType} from "../redux/profile-reducer";
+import {FormDataType, ProfileDataType} from "../componets/Profile/ProfileInfo/ProfileInfo";
 
 type ResponseProfileType = ProfileType
 type ResponseStatusType = {
@@ -27,5 +28,8 @@ export const profileAPI = {
                 'Content-Type': 'multipart/form-data'
             }
         })
+    },
+    saveProfile(profile: FormDataType) {
+        return instance.put<any>(`profile`, profile)
     },
 }

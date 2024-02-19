@@ -2,16 +2,25 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
-import {getProfileTC, getUserStatusTC, ProfileType, savePhoto, updateUserStatusTC} from "../../redux/profile-reducer";
+import {
+    getProfileTC,
+    getUserStatusTC,
+    ProfileType,
+    savePhoto,
+    saveProfile,
+    updateUserStatusTC
+} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {FormDataType} from "./ProfileInfo/ProfileInfo";
 
 type ProfileClassPropsType = {
     getProfileTC: (userID: string) => void
     getUserStatusTC: (userID: string) => void
     updateUserStatusTC: (status: string) => void
     savePhoto: (e: File) => void
+    saveProfile: (e: FormDataType) => Promise<any>
 } & MapStateToPropsType
 
 type MapStateToPropsType = {
@@ -71,5 +80,6 @@ export default compose<React.ComponentType>(connect(mapStateToProps, {
     getUserStatusTC,
     updateUserStatusTC,
     savePhoto,
+    saveProfile,
 }), withRouter, withAuthRedirect)
 (ProfileClassContainer)

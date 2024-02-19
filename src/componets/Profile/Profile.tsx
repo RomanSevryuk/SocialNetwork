@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
+import {FormDataType, ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPostsContainer";
 import {ProfileType} from "../../redux/profile-reducer";
 
@@ -9,13 +9,14 @@ type ProfilePropsType = {
     updateUserStatusTC: (status: string) => void
     isOwner: boolean
     savePhoto: (e: File) => void
+    saveProfile: (e: FormDataType) => Promise<any>
 }
 
-export const Profile = ({profile, status, updateUserStatusTC, isOwner, savePhoto}: ProfilePropsType) => {
+export const Profile = ({profile, status, updateUserStatusTC, isOwner, savePhoto, saveProfile}: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo profile={profile} status={status} updateUserStatusTC={updateUserStatusTC} isOwner={isOwner}
-                         savePhoto={savePhoto}/>
+                         savePhoto={savePhoto} saveProfile={saveProfile}/>
             <MyPostsContainer/>
         </div>
     );

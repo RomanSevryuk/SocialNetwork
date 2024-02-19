@@ -1,6 +1,9 @@
 import {Dispatch} from "redux";
 import {toggleIsFetching} from "./users-reducer";
 import {profileAPI} from "../api/profile-api";
+import {AppRootStateType, AppThunkDispatch} from "./redux-store";
+import {FormDataType} from "../componets/Profile/ProfileInfo/ProfileInfo";
+import {stopSubmit} from "redux-form";
 
 const initialState: ProfilePageType = {
     posts: [
@@ -72,6 +75,20 @@ export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
         dispatch(savePhotoSuccess(response.data.data.photos))
 }
 
+export const saveProfile = (profile: FormDataType) => async (dispatch: AppThunkDispatch, getState: ()=> AppRootStateType) => {
+    const userId = getState().auth.id
+    dispatch(toggleIsFetching(true))
+    const response = await profileAPI.saveProfile(profile)
+    dispatch(toggleIsFetching(false))
+    if (response.data.resultCode === 0) {
+        if (userId !== null)
+        dispatch(getProfileTC(userId.toString()))
+    } else {
+        dispatch(stopSubmit('editProfile', {_error: response.data.messages[0]}))
+        return Promise.reject(response.data.messages[0])
+    }
+}
+
 //types
 type InitialStateType = typeof initialState
 
@@ -87,7 +104,7 @@ export type ProfileType = {
         large?: string
     }
 }
-type ContactsProfileType = {
+export type ContactsProfileType = {
     facebook: string
     website: string
     vk: string
