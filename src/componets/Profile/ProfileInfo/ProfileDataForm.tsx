@@ -6,12 +6,15 @@ import {FormDataType} from "./ProfileInfo";
 import s from "../../common/FormsControls/FormsControls.module.css";
 
 
-
 type ProfileDataFormType = {
     profile: ProfileType;
 };
 
-const ProfileDataForm: React.FC<InjectedFormProps<FormDataType, ProfileDataFormType> & ProfileDataFormType> = ({handleSubmit, profile, error}) => {
+const ProfileDataForm: React.FC<InjectedFormProps<FormDataType, ProfileDataFormType> & ProfileDataFormType> = ({
+                                                                                                                   handleSubmit,
+                                                                                                                   profile,
+                                                                                                                   error
+                                                                                                               }) => {
     return (
         <form onSubmit={handleSubmit}>
             {<div>

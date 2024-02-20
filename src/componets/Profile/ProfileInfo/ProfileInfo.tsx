@@ -26,7 +26,14 @@ export type FormDataType = {
     aboutMe: string
 }
 
-export const ProfileInfo = ({profile, status, updateUserStatusTC, isOwner, savePhoto, saveProfile}: ProfileInfoPropsType) => {
+export const ProfileInfo = ({
+                                profile,
+                                status,
+                                updateUserStatusTC,
+                                isOwner,
+                                savePhoto,
+                                saveProfile
+                            }: ProfileInfoPropsType) => {
 
     const [editMode, setEditMode] = useState(false)
 
@@ -41,7 +48,7 @@ export const ProfileInfo = ({profile, status, updateUserStatusTC, isOwner, saveP
     }
 
     const onSubmit = (formData: FormDataType) => {
-        saveProfile(formData).then(()=>{
+        saveProfile(formData).then(() => {
             setEditMode(false)
         })
     }
@@ -57,7 +64,7 @@ export const ProfileInfo = ({profile, status, updateUserStatusTC, isOwner, saveP
                 <ProfileStatusWithHooks statusProp={status} updateUserStatusTC={updateUserStatusTC}/>
                 {editMode
                     ? <ProfileDataReduxForm initialValues={profile} profile={profile} onSubmit={onSubmit}/>
-                    : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={()=>setEditMode(true)}/>}
+                    : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => setEditMode(true)}/>}
             </div>
         </div>
     );
@@ -95,7 +102,7 @@ const ProfileData = ({profile, isOwner, goToEditMode}: ProfileDataType) => {
                 </div>
             </div>
         }
-        </>
+    </>
 }
 
 export const Contacts = ({contactTitle, contactValue}: ContactsPropsType) => {
