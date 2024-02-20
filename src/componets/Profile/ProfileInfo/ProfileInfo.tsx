@@ -56,11 +56,12 @@ export const ProfileInfo = ({
     return (
         <div>
             <div className={s.content}>
-                <img src='https://i.pinimg.com/originals/30/80/1c/30801c76ad257c29de8d2f28beabab38.jpg'/>
+                <img src='https://www.nicepng.com/png/full/5-53402_social-media-icons-blue-social-media-icons-png.png'/>
             </div>
             <div className={s.descriptionBlock}>
                 <img className={s.avatar} src={profile?.photos.large || avatar}/>
-                {isOwner && <input type={'file'} onChange={onMainPhotoSelected}/>}
+                <div>{isOwner && <input type={'file'} onChange={onMainPhotoSelected}/>}</div>
+                <br/>
                 <ProfileStatusWithHooks statusProp={status} updateUserStatusTC={updateUserStatusTC}/>
                 {editMode
                     ? <ProfileDataReduxForm initialValues={profile} profile={profile} onSubmit={onSubmit}/>
@@ -79,9 +80,6 @@ const ProfileData = ({profile, isOwner, goToEditMode}: ProfileDataType) => {
     return <>
         {profile &&
             <div>
-                {isOwner && <div>
-                    <button onClick={goToEditMode}>edit</button>
-                </div>}
                 <div>
                     <b>Full name:</b> {profile.fullName}
                 </div>
@@ -99,7 +97,11 @@ const ProfileData = ({profile, isOwner, goToEditMode}: ProfileDataType) => {
                     return <Contacts key={key} contactTitle={key}
                                      contactValue={profile.contacts[key as keyof ContactsProfileType]}/>
                 })}
+                    <br/>
                 </div>
+                {isOwner && <div>
+                    <button onClick={goToEditMode}>Edit profile</button>
+                </div>}
             </div>
         }
     </>

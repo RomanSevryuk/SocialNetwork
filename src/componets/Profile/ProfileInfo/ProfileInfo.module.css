@@ -1,9 +1,16 @@
 .content img {
-    width: 1000px;
+    width: 630px;
+    height: 280px;
+    border-radius: 0px 0px 20px 20px;
+    opacity: 80%;
+    padding: 20px 20px;
+    display: block;
+    margin: auto;
 }
 .avatar {
     width: 200px;
     height: 200px;
+    border-radius: 100px;
 }
 .descriptionBlock {
     padding: 10px;
