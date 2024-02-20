@@ -60,10 +60,15 @@ export const getUserStatusTC = (userID: string) => async (dispatch: Dispatch) =>
 
 export const updateUserStatusTC = (status: string) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-    const data = await profileAPI.updateStatus(status)
-    dispatch(toggleIsFetching(false))
-    if (data.data.resultCode === 0)
-        dispatch(setStatus(status))
+    try {
+        const data = await profileAPI.updateStatus(status)
+        dispatch(toggleIsFetching(false))
+        if (data.data.resultCode === 0)
+            dispatch(setStatus(status))
+    } catch (error) {
+        console.log(error)
+    }
+
 }
 
 export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
@@ -75,14 +80,14 @@ export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
         dispatch(savePhotoSuccess(response.data.data.photos))
 }
 
-export const saveProfile = (profile: FormDataType) => async (dispatch: AppThunkDispatch, getState: ()=> AppRootStateType) => {
+export const saveProfile = (profile: FormDataType) => async (dispatch: AppThunkDispatch, getState: () => AppRootStateType) => {
     const userId = getState().auth.id
     dispatch(toggleIsFetching(true))
     const response = await profileAPI.saveProfile(profile)
     dispatch(toggleIsFetching(false))
     if (response.data.resultCode === 0) {
         if (userId !== null)
-        dispatch(getProfileTC(userId.toString()))
+            dispatch(getProfileTC(userId.toString()))
     } else {
         dispatch(stopSubmit('editProfile', {_error: response.data.messages[0]}))
         return Promise.reject(response.data.messages[0])
