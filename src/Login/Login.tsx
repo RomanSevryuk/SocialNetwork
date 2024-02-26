@@ -8,6 +8,18 @@ import {AppRootStateType} from "../redux/redux-store";
 import {Redirect} from "react-router-dom";
 import s from '../componets/common/FormsControls/FormsControls.module.css'
 
+type LoginDataFormType = {
+    captchaUrl: string | null
+}
+
+type LoginPagePropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
+} & MapStateToPropsType
+
+type MapStateToPropsType = {
+    isAuth: boolean
+} & LoginDataFormType
+
 type FormDataType = {
     email: string
     password: string
@@ -15,20 +27,7 @@ type FormDataType = {
     captcha: string
 }
 
-type LoginDataFormType = {
-    captchaUrl: string | null
-}
-
-type LoginPagePropsType = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
-    isAuth: boolean
-    captchaUrl: string | null
-}
-
-type MapStateToPropsType = {
-    isAuth: boolean
-    captchaUrl: string | null
-}
+type FormDataKeysType = Extract<keyof FormDataType, string>
 
 const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginDataFormType> & LoginDataFormType> = ({
                                                                                                          handleSubmit,
@@ -37,13 +36,13 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginDataFormType> & L
                                                                                                      }) => {
     return (
         <form onSubmit={handleSubmit}>
-            {createField('Email', Input, 'email', [requiredField])}
-            {createField('Password', Input, 'password', [requiredField], 'password')}
+            {createField<FormDataKeysType>('Email', Input, 'email', [requiredField])}
+            {createField<FormDataKeysType>('Password', Input, 'password', [requiredField], 'password')}
             <div>
                 <Field type={'checkbox'} component={Input} name={'rememberMe'}/> remember me
             </div>
             {captchaUrl && <img src={captchaUrl}/>}
-            {captchaUrl && createField('Symbols from image', Input, 'captcha', [requiredField])}
+            {captchaUrl && createField<FormDataKeysType>('Symbols from image', Input, 'captcha', [requiredField])}
             {error && <div className={s.formSummaryError}> {error}</div>}
             <div>
                 <button>Login</button>
